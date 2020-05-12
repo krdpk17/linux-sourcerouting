@@ -3,7 +3,7 @@ import pyroute2
 
 class Tests:
     def __init__(self):
-        self.table_id = '100'
+        self.table_id = 100
     def create_rule_add_routes(self):
         iproute = pyroute2.IPRoute()
         pdb.set_trace()
