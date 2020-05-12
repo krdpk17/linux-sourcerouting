@@ -15,7 +15,6 @@ class RouteManager:
 
     def parse_route(self, route):
         table_id = route['table']
-        pdb.set_trace()
         if table_id not in self.ip_rules:
             print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route))
             return
@@ -33,6 +32,7 @@ class RouteManager:
         iproute = pyroute2.IPRoute()
         routes = iproute.get_routes()
         self.ip_routes = [(lambda route: self.parse_route(route))(route)  for route in routes if route['table'] not in self.exclusion_filter]
+        pdb.set_trace()
         print("Found {} routes".format(len(self.ip_routes)))
         return
     
