@@ -4,13 +4,13 @@ import pyroute2
 '''
     TODO: 
     Check purpose of multiple rules with same table ID
-    Check whether ordering of route entries for a table matters. Try to maintain same order
+    Check whether ordering of route entries for a table matters. Try to maintain same
 '''
 class RouteManager:
 
     def __init__(self, exclusion_filter=[0, 253, 254, 255]):
         self.exclusion_filter = exclusion_filter
-        self.ip_rules = {}
+        self.ip_rules = []
         self.ip_routes = []
         self.routes_by_priority = {}
     
@@ -30,7 +30,7 @@ class RouteManager:
     def fetch_rules(self):
         iproute = pyroute2.IPRoute()
         rules = iproute.get_rules()
-        self.ip_rules = {rule['table']:(lambda rule: self.parse_rule(rule))(rule) for rule in rules if rule['table'] not in self.exclusion_filter}
+        self.ip_rules = [rule['table']:(lambda rule: self.parse_rule(rule))(rule) for rule in rules if rule['table'] not in self.exclusion_filter]
         print("Found {} rules".format(len(self.ip_rules)))
         return
     
