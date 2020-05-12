@@ -18,7 +18,7 @@ class RouteManager:
         if table_id not in self.ip_rules:
             print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route))
             return
-        priority = self.ip_rules['table_id']
+        priority = self.ip_rules[table_id]
         return {priority: route}
 
     def fetch_rules(self):
