@@ -19,6 +19,7 @@ class RouteManager:
             print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route))
             return
         priority = self.ip_rules[table_id]
+        pdb.set_trace()
         return {priority: route}
 
     def fetch_rules(self):
