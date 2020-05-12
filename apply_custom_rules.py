@@ -17,7 +17,7 @@ class RouteManager:
         iproute = pyroute2.IPRoute()
         pdb.set_trace()
         rules = iproute.get_rules()
-        self.ip_rules = [lambda rule: self.parse_rule(rule) for rule in rules if rule['table'] not in self.exclusion_filter]
+        self.ip_rules = [(lambda rule: self.parse_rule(rule))(rule) for rule in rules if rule['table'] not in self.exclusion_filter]
         print("Found {} rules".format(len(self.ip_rules)))
         return
 
