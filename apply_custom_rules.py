@@ -31,7 +31,7 @@ class RouteManager:
     def fetch_rules(self):
         iproute = pyroute2.IPRoute()
         rules = iproute.get_rules()
-        self.ip_rules = [rule['table']:(lambda rule: self.parse_rule(rule))(rule) for rule in rules if rule['table'] not in self.exclusion_filter]
+        self.ip_rules = [{rule['table']:(lambda rule: self.parse_rule(rule))(rule)} for rule in rules if rule['table'] not in self.exclusion_filter]
         print("Found {} rules".format(len(self.ip_rules)))
         self.merge_rules_by_id()
         return
