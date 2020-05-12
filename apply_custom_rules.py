@@ -31,7 +31,7 @@ class RouteManager:
     def fetch_rules(self):
         iproute = pyroute2.IPRoute()
         rules = iproute.get_rules()
-        self.ip_rules = [{rule['table']:(lambda rule: self.parse_rule(rule))(rule)} for rule in rules if rule['table'] not in self.exclusion_filter]
+        self.ip_rules = [(rule['table'], (lambda rule: self.parse_rule(rule))(rule)) for rule in rules if rule['table'] not in self.exclusion_filter]
         print("Found {} rules".format(len(self.ip_rules)))
         self.merge_rules_by_id()
         return
@@ -41,10 +41,10 @@ class RouteManager:
         ip_rules_by_id = self.ip_rules_by_id
         pdb.set_trace()
         for rule in rules:
-            id = rule['FRA_TABLE']
+            id = rule[0]
             if id not in self.ip_rules_by_id:
                 ip_rules_by_id[id] = []
-            ip_rules_by_id[id].append(rule)
+            ip_rules_by_id[id].append(rule[1])
         print("Number of entries after id based merge is {}".format(len(ip_rules_by_id)))
         return
 
