@@ -5,7 +5,7 @@ class RouteManager:
     def __init__(self, exclusion_filter=[0, 253, 254, 255]):
         self.exclusion_filter = exclusion_filter
         self.ip_rules = {}
-    def get_rules_priority(self):
+    def get_rules(self):
         iproute = pyroute2.IPRoute()
         pdb.set_trace()
         rules = iproute.get_rules()
@@ -19,7 +19,7 @@ class RouteManager:
         print("{}".format(filtered_routes))
 
     def process_custom_rules(self):
-        ip_rules = self.get_rules_priority()
+        ip_rules = self.get_rules()
         ip_routes = self.get_routes()
 routeManager = RouteManager()
 routeManager.process_custom_rules()
