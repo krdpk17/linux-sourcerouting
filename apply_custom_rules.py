@@ -12,6 +12,13 @@ class RouteManager:
         rule_attrs = rule['attrs']
         pdb.set_trace()
         attr_dict = {attr[0]:attr[1] for attr in rule_attrs}
+        priority = attr_dict['FRA_PRIORITY']
+        if priority in self.routes_by_priority:
+            print"[WARN]There is already existing entry {} for {} priority".format(self.routes_by_priority[priority], priority))
+            return
+        self.routes_by_priority[priority] = attr_dict
+        return
+
 
     def fetch_rules(self):
         iproute = pyroute2.IPRoute()
