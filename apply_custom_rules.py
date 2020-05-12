@@ -37,7 +37,7 @@ class RouteManager:
         return
 
     def merge_rules_by_id(self):
-        routes = self.ip_rules
+        rules = self.ip_rules
         ip_rules_by_id = self.ip_rules_by_id
         pdb.set_trace()
         for rule in rules:
