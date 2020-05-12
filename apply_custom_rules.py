@@ -32,7 +32,7 @@ class RouteManager:
     def fetch_routes(self):
         iproute = pyroute2.IPRoute()
         routes = iproute.get_routes()
-        self.ip_routes = [(lambda route: self.parse_route(rule))(route)  for route in routes if route['table'] not in self.exclusion_filter]
+        self.ip_routes = [(lambda route: self.parse_route(route))(route)  for route in routes if route['table'] not in self.exclusion_filter]
         print("Found {} routes".format(len(self.ip_routes)))
         return
     
