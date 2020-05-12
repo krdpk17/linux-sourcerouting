@@ -2,7 +2,9 @@ import pdb
 import pyroute2
 
 '''
-    TODO: Check purpose of multiple rules with same table ID
+    TODO: 
+    Check purpose of multiple rules with same table ID
+    Check whether ordering of route entries for a table matters. Try to maintain same order
 '''
 class RouteManager:
 
@@ -40,7 +42,8 @@ class RouteManager:
             priority = route[0]
             if priority not in self.routes_by_priority:
                 routes_by_priority[priority] = []
-            routes_by_priority[priority].append(route)
+            routes_by_priority[priority].append(route[1])
+        print("Number of entries after priority based merge is {}".format(len(routes_by_priority)))
         return
 
 
@@ -48,7 +51,6 @@ class RouteManager:
         iproute = pyroute2.IPRoute()
         routes = iproute.get_routes()
         self.ip_routes = [(lambda route: self.parse_route(route))(route)  for route in routes if route['table'] not in self.exclusion_filter]
-        pdb.set_trace()
         print("Found {} routes".format(len(self.ip_routes)))
         self.merge_routes_by_priority()
         return
