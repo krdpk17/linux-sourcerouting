@@ -11,9 +11,17 @@ class Tests:
         iproute.rule('add', self.table_id, 32000, src='1.1.1.1')
         #Add routes
         ip.route("add", dst="10.0.0.0", mask=24, gateway="192.168.0.1", table=self.table_id)
+    def delete_rules():
+        iproute = pyroute2.IPRoute()
+        pdb.set_trace()
+        iproute.rule('delete', self.table_id)
+
+    def cleanup(self):
+        self.delete_rules()
 
     def execute(self):
         self.create_rule_add_routes()
 
 tests = Tests()
 tests.execute()
+tests.cleanup()
