@@ -21,6 +21,8 @@ class Tests:
         iproute.rule('add', self.table_id_multiple_rule, 32001, src='2.1.1.1')
         iproute.rule('add', self.table_id_multiple_rule, 32002, dst='2.1.1.1')
         iproute.rule('add', self.table_id_multiple_rule, 32002, src='3.1.1.1', dst='4.1.1.1')
+        iproute.rule('add', self.table_id_multiple_rule, 32002, srcport='8080')
+        iproute.rule('add', self.table_id_multiple_rule, 32002, dstport='9090')
         #Add routes
         iproute.route("add", dst="10.0.0.0", mask=24, gateway="172.17.0.3", table=self.table_id_multiple_rule)
         iproute.route("add", dst="11.0.0.0", mask=24, gateway="172.17.0.3", table=self.table_id_multiple_rule)

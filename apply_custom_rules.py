@@ -3,10 +3,24 @@ import pyroute2
 
 '''
     TODO: 
-    Check purpose of multiple rules with same table ID
+    Handle multiple rules with same table ID
     Check whether ordering of route entries for a table matters. Try to maintain same
+    Check with IPV6 configuration
+    Check with empty rules
+    Check with empty routes
+    Check with routes without IP rule
+    Check with rule without any route
+    check with rule for all traffic [from all lookup 101]
 '''
 class RouteManager:
+
+    class OptionsMaping:
+        '''
+        Maps the attribute names from the IP route
+        port mapping is not support by IP and so skipped. 
+        'ip rule add sport 8080 dport 9090 table 102' -> 'from all lookup 102'
+        '''
+        attrs_mapping = {'RTA_GATEWAY':'nextHop', 'RTA_DST':'-destIP', 'FRA_DST':'-destIP', 'FRA_SRC':'srcIP'}
 
     def __init__(self, exclusion_filter=[0, 253, 254, 255]):
         self.exclusion_filter = exclusion_filter
@@ -14,6 +28,7 @@ class RouteManager:
         self.ip_rules_by_id = {}
         self.ip_routes = []
         self.routes_by_priority = {}
+        self.base_priority = 100
     
     def parse_rule(self, rule):
         rule_attrs = rule['attrs']
@@ -26,21 +41,19 @@ class RouteManager:
             print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route))
             return
         priority = self.ip_rules_by_id[table_id][0]['FRA_PRIORITY']
-        return (priority, route)
+        return (priority, route['attrs'])
 
     def fetch_rules(self):
         iproute = pyroute2.IPRoute()
         rules = iproute.get_rules()
         self.ip_rules = [(rule['table'], (lambda rule: self.parse_rule(rule))(rule)) for rule in rules if rule['table'] not in self.exclusion_filter]
         print("Found {} rules".format(len(self.ip_rules)))
-        pdb.set_trace()
         self.merge_rules_by_id()
         return
 
     def merge_rules_by_id(self):
         rules = self.ip_rules
         ip_rules_by_id = self.ip_rules_by_id
-        pdb.set_trace()
         for rule in rules:
             id = rule[0]
             if id not in self.ip_rules_by_id:
@@ -49,12 +62,9 @@ class RouteManager:
         print("Number of entries after id based merge is {}".format(len(ip_rules_by_id)))
         return
 
-
-
     def merge_routes_by_priority(self):
         routes = self.ip_routes
         routes_by_priority = self.routes_by_priority
-        pdb.set_trace()
         for route in routes:
             priority = route[0]
             if priority not in self.routes_by_priority:
