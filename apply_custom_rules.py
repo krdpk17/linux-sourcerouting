@@ -8,7 +8,9 @@ class RouteManager:
     def get_rules_priority(self):
         iproute = pyroute2.IPRoute()
         pdb.set_trace()
-        iproute.get_rules()
+        rules = iproute.get_rules()
+        self.ip_rules = [rule for rule in rules if rule['lookup'] not in self.exclusion_filter]
+        return
     def get_routes(self):
         iproute = pyroute2.IPRoute()
         routes = iproute.get_routes()
