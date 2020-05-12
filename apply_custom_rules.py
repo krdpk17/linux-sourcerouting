@@ -9,7 +9,7 @@ class RouteManager:
         iproute = pyroute2.IPRoute()
         pdb.set_trace()
         rules = iproute.get_rules()
-        self.ip_rules = [rule for rule in rules if rule['lookup'] not in self.exclusion_filter]
+        self.ip_rules = [rule for rule in rules if rule['table'] not in self.exclusion_filter]
         return
     def get_routes(self):
         iproute = pyroute2.IPRoute()
