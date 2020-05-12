@@ -33,6 +33,7 @@ class RouteManager:
         rules = iproute.get_rules()
         self.ip_rules = [(rule['table'], (lambda rule: self.parse_rule(rule))(rule)) for rule in rules if rule['table'] not in self.exclusion_filter]
         print("Found {} rules".format(len(self.ip_rules)))
+        pdb.set_trace()
         self.merge_rules_by_id()
         return
 
