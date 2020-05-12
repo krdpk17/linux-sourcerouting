@@ -10,7 +10,6 @@ class RouteManager:
     
     def parse_rule(self, rule):
         rule_attrs = rule['attrs']
-        pdb.set_trace()
         attr_dict = {attr[0]:attr[1] for attr in rule_attrs}
         return attr_dict
 
@@ -19,6 +18,7 @@ class RouteManager:
         iproute = pyroute2.IPRoute()
         rules = iproute.get_rules()
         self.ip_rules = {rule['table']:(lambda rule: self.parse_rule(rule))(rule) for rule in rules if rule['table'] not in self.exclusion_filter}
+        pdb.set_trace()
         print("Found {} rules".format(len(self.ip_rules)))
         return
 
