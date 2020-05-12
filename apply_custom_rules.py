@@ -47,6 +47,7 @@ class RouteManager:
         self.ip_routes = [(lambda route: self.parse_route(route))(route)  for route in routes if route['table'] not in self.exclusion_filter]
         pdb.set_trace()
         print("Found {} routes".format(len(self.ip_routes)))
+        self.merge_routes_by_priority()
         return
     
     def routes_to_command(self):
