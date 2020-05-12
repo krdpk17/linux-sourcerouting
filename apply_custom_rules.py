@@ -23,7 +23,7 @@ class RouteManager:
         pdb.set_trace()
         route_priority[priority] = route
         
-        return route_priority
+        return {priority:route}
 
     def fetch_rules(self):
         iproute = pyroute2.IPRoute()
