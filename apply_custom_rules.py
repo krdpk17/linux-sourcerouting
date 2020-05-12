@@ -11,6 +11,8 @@ import pyroute2
     Check with routes without IP rule
     Check with rule without any route
     check with rule for all traffic [from all lookup 101]
+    Check for precedence between rule and routes
+        conficting config between rule and routes (rule has distination and route also has)
 '''
 class RouteManager:
 
