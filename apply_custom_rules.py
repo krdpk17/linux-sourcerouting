@@ -20,7 +20,7 @@ class RouteManager:
             return
         priority = self.ip_rules[table_id]
         pdb.set_trace()
-        route_priority = {priority: route}
+        route_priority[priority] = route
         
         return route_priority
 
