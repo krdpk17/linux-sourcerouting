@@ -1,5 +1,9 @@
 import pdb
 import pyroute2
+
+'''
+    TODO: Check purpose of multiple rules with same table ID
+'''
 class RouteManager:
 
     def __init__(self, exclusion_filter=[0, 253, 254, 255]):
@@ -27,6 +31,15 @@ class RouteManager:
         self.ip_rules = {rule['table']:(lambda rule: self.parse_rule(rule))(rule) for rule in rules if rule['table'] not in self.exclusion_filter}
         print("Found {} rules".format(len(self.ip_rules)))
         return
+    
+    def merge_routes_by_priority(self):
+        routes = self.ip_routes
+        routes_by_priority = self.routes_by_priority
+        pdb.set_trace()
+        for route in routes:
+            priority = route.key
+        return
+
 
     def fetch_routes(self):
         iproute = pyroute2.IPRoute()
