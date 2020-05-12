@@ -23,7 +23,7 @@ class RouteManager:
             print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route))
             return
         priority = self.ip_rules[table_id]['FRA_PRIORITY']
-        return {priority:route}
+        return (priority, route)
 
     def fetch_rules(self):
         iproute = pyroute2.IPRoute()
@@ -37,7 +37,10 @@ class RouteManager:
         routes_by_priority = self.routes_by_priority
         pdb.set_trace()
         for route in routes:
-            priority = route.key
+            priority = route[0]
+            if priority not in self.routes_by_priority:
+                routes_by_priority[priority] = []
+            routes_by_priority[priority].append(route)
         return
 
 
