@@ -22,10 +22,10 @@ class RouteManager:
 
     def parse_route(self, route):
         table_id = route['table']
-        if table_id not in self.ip_rules_by_id:
+        if table_id not in self.ip_rules_by_id or not len(self.ip_rules_by_id[table_id]):
             print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route))
             return
-        priority = self.ip_rules[table_id]['FRA_PRIORITY']
+        priority = self.ip_rules_by_id[table_id][0]['FRA_PRIORITY']
         return (priority, route)
 
     def fetch_rules(self):
