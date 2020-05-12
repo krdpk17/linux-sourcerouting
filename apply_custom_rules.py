@@ -11,6 +11,7 @@ class RouteManager:
     def __init__(self, exclusion_filter=[0, 253, 254, 255]):
         self.exclusion_filter = exclusion_filter
         self.ip_rules = []
+        self.ip_rules_by_id = {}
         self.ip_routes = []
         self.routes_by_priority = {}
     
@@ -32,8 +33,23 @@ class RouteManager:
         rules = iproute.get_rules()
         self.ip_rules = [rule['table']:(lambda rule: self.parse_rule(rule))(rule) for rule in rules if rule['table'] not in self.exclusion_filter]
         print("Found {} rules".format(len(self.ip_rules)))
+        self.merge_rules_by_id()
         return
-    
+
+    def merge_rules_by_id(self):
+        routes = self.ip_rules
+        ip_rules_by_id = self.ip_rules_by_id
+        pdb.set_trace()
+        for rule in rules:
+            id = rule['FRA_TABLE']
+            if id not in self.ip_rules_by_id:
+                ip_rules_by_id[id] = []
+            ip_rules_by_id[id].append(rule)
+        print("Number of entries after id based merge is {}".format(len(ip_rules_by_id)))
+        return
+
+
+
     def merge_routes_by_priority(self):
         routes = self.ip_routes
         routes_by_priority = self.routes_by_priority
