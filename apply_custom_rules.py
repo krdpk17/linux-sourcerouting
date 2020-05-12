@@ -8,7 +8,7 @@ class RouteManager:
         iproute = pyroute2.IPRoute()
         routes = iproute.get_routes()
         pdb.set_trace()
-        filtered_routes = [route for route in routes if route['attrs']['RTA_TABLE'] not in self.exclusion_filter]
+        filtered_routes = [route for route in routes if route['table'] not in self.exclusion_filter]
         print("{}".format(filtered_routes))
 
 routeManager = RouteManager()
