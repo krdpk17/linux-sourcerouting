@@ -12,32 +12,29 @@ class RouteManager:
         rule_attrs = rule['attrs']
         pdb.set_trace()
         attr_dict = {attr[0]:attr[1] for attr in rule_attrs}
-        priority = attr_dict['FRA_PRIORITY']
-        if priority in self.routes_by_priority:
-            print("[WARN]There is already existing entry {} for {} priority".format(self.routes_by_priority[priority], priority))
-            return
-        self.routes_by_priority[priority] = attr_dict
-        return
+        return attr_dict
 
 
     def fetch_rules(self):
         iproute = pyroute2.IPRoute()
-        pdb.set_trace()
         rules = iproute.get_rules()
-        self.ip_rules = [(lambda rule: self.parse_rule(rule))(rule) for rule in rules if rule['table'] not in self.exclusion_filter]
+        self.ip_rules = {rule['table']:(lambda rule: self.parse_rule(rule))(rule) for rule in rules if rule['table'] not in self.exclusion_filter}
         print("Found {} rules".format(len(self.ip_rules)))
         return
 
     def fetch_routes(self):
         iproute = pyroute2.IPRoute()
         routes = iproute.get_routes()
-        pdb.set_trace()
         self.ip_routes = [route for route in routes if route['table'] not in self.exclusion_filter]
         print("Found {} routes".format(len(self.ip_routes)))
         return
+    
+    def routes_to_command(self):
+        pdb.set_trace()
 
     def process_custom_rules(self):
         self.fetch_rules()
         self.fetch_routes()
+        self.routes_to_command()
 routeManager = RouteManager()
 routeManager.process_custom_rules()
