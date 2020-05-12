@@ -11,7 +11,7 @@ class RouteManager:
     def parse_rule(self, rule):
         rule_attrs = rule['attrs']
         pdb.set_trace()
-        attr_dict = {attr[0]:attr[1] for attr in attrs}
+        attr_dict = {attr[0]:attr[1] for attr in rule_attrs}
 
     def fetch_rules(self):
         iproute = pyroute2.IPRoute()
