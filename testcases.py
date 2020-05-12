@@ -10,7 +10,7 @@ class Tests:
         #Add rule
         iproute.rule('add', self.table_id, 32000, src='1.1.1.1')
         #Add routes
-        ip.route("add", dst="10.0.0.0", mask=24, gateway="192.168.0.1", table=self.table_id)
+        iproute.route("add", dst="10.0.0.0", mask=24, gateway="192.168.0.1", table=self.table_id)
     def delete_rules():
         iproute = pyroute2.IPRoute()
         pdb.set_trace()
