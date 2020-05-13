@@ -41,7 +41,7 @@ class RouteManager:
     def parse_route(self, route):
         table_id = route['table']
         if table_id not in self.ip_rules_by_id or not len(self.ip_rules_by_id[table_id]):
-            print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route[attrs]))
+            print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route['attrs']))
             return None
         priority = self.ip_rules_by_id[table_id][0]['FRA_PRIORITY']
         attrs = {attr[0]:attr[1] for attr in route['attrs']}
