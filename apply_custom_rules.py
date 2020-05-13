@@ -54,7 +54,10 @@ class RouteManager:
         if table_id not in self.ip_rules_by_id or not len(self.ip_rules_by_id[table_id]):
             print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route['attrs']))
             return None
-        priority = self.ip_rules_by_id[table_id][0]['FRA_PRIORITY']
+        rule_list = self.ip_rules_by_id[table_id]
+        priority = []
+        for rule in rule_list:
+            priority.append(rule['FRA_PRIORITY'])
         attrs = {attr[0]:attr[1] for attr in route['attrs']}
         return (priority, attrs)
 
@@ -81,10 +84,11 @@ class RouteManager:
         routes = self.ip_routes
         routes_by_priority = self.routes_by_priority
         for route in routes:
-            priority = route[0]
-            if priority not in self.routes_by_priority:
-                routes_by_priority[priority] = []
-            routes_by_priority[priority].append(route[1])
+            priority_list = route[0]
+            for priority in priority_list:
+                if priority not in self.routes_by_priority:
+                    routes_by_priority[priority] = []
+                routes_by_priority[priority].append(route[1])
         self.routes_by_priority = OrderedDict(sorted(routes_by_priority.items()))
         print("Number of entries after priority based merge is {}".format(len(routes_by_priority)))
         return
