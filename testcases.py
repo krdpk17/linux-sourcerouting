@@ -30,7 +30,7 @@ class Tests:
             'add ns pbr  pbr_32000_103  -destIP 10.0.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 103 ALLOW',
             'add ns pbr  pbr_32000_103  -destIP 0.0.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 103 ALLOW',
         ]
-        self.write_to_file('create_single_rule_multiple_route.txt', expected_output)       
+        self.write_to_file('test_sorting.txt', expected_output)       
     
     def create_single_rule_multiple_route(self):
         iproute = pyroute2.IPRoute()
