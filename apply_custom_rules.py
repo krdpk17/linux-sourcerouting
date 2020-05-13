@@ -148,7 +148,6 @@ class RouteManager:
         routes_by_priority = self.routes_by_priority
         curr_priority = self.base_priority
         for priority, route_list  in routes_by_priority.items():
-            ordered_routes = self.sort_routes(route_list)
             '''
             ip tool maintains the order in the ascending sorted. We will use descending to make most specific to least specific
             '''
