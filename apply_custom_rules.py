@@ -150,7 +150,7 @@ class RouteManager:
         for priority, route_list  in routes_by_priority.items():
             ordered_routes = self.sort_routes(route_list)
             '''
-            Linux maintains the order in the ascending sorted. We will use descending to make most specific to least specific
+            ip tool maintains the order in the ascending sorted. We will use descending to make most specific to least specific
             '''
             for route in reversed(route_list):
                 curr_priority = curr_priority + 1
