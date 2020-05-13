@@ -13,6 +13,7 @@ import pyroute2
     check with rule for all traffic [from all lookup 101]
     Check for precedence between rule and routes (rule has higher precedence)
         conficting config between rule and routes (rule has distination and route also has)
+
 '''
 class RouteManager:
 
@@ -40,10 +41,11 @@ class RouteManager:
     def parse_route(self, route):
         table_id = route['table']
         if table_id not in self.ip_rules_by_id or not len(self.ip_rules_by_id[table_id]):
-            print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route))
-            return
+            print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route[attrs]))
+            return None
         priority = self.ip_rules_by_id[table_id][0]['FRA_PRIORITY']
-        return (priority, route['attrs'])
+        attrs = {attr[0]:attr[1] for attr in attrs}
+        return (priority, attrs)
 
     def fetch_rules(self):
         iproute = pyroute2.IPRoute()
@@ -80,12 +82,17 @@ class RouteManager:
         iproute = pyroute2.IPRoute()
         routes = iproute.get_routes()
         self.ip_routes = [(lambda route: self.parse_route(route))(route)  for route in routes if route['table'] not in self.exclusion_filter]
+        print("Removing routes which has no corresponding rules")
+        self.ip_routes = [route for route in routes if route is not None]
         print("Found {} routes".format(len(self.ip_routes)))
         self.merge_routes_by_priority()
         return
     
     def routes_to_command(self):
-        pdb.set_trace()
+        routes_by_priority = self.routes_by_priority
+        curr_priority = self.base_priority
+        for priority, route_list  in routes_by_priority.items():
+             pdb.set_trace()
 
     def process_custom_rules(self):
         self.fetch_rules()
