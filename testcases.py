@@ -91,10 +91,10 @@ class Tests:
         self.delete_rules()
 
     def execute(self):
-        self.test_sorting()
-        self.create_single_rule_multiple_route()
-        self.create_multiple_rule_single_route()
-        self.create_multi_rule_multiple_route()
+        # self.test_sorting()
+        # self.create_single_rule_multiple_route()
+        # self.create_multiple_rule_single_route()
+        # self.create_multi_rule_multiple_route()
 
 tests = Tests()
 tests.execute()
