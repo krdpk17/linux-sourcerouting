@@ -120,7 +120,10 @@ class RouteManager:
         pdb.set_trace()
         rule_mapping = self.ip_rules_by_priority[orig_priority]
         for key, value in rule_mapping.items():
-            if key in attrs_mapping.items():
+            if key in attrs_mapping:
+                if attrs_mapping[key] is in options:
+                    print("skipping as overlapping attr {} found with value={}".format(attrs_mapping[key], options[attrs_mapping[key]]))
+                    return
                 options[attrs_mapping[key]] = value
         options['-priority'] = new_priority
         options_str = ''
