@@ -51,6 +51,10 @@ class RouteManager:
     def parse_rule(self, rule):
         rule_attrs = rule['attrs']
         attr_dict = {attr[0]:attr[1] for attr in rule_attrs}
+        if rule['src_len']:
+            attr_dict['src_len'] = rule['src_len']
+        if rule['dst_len']:
+            attr_dict['dst_len'] = rule['dst_len']
         self.ip_rules_by_priority[attr_dict['FRA_PRIORITY']] = attr_dict
         return attr_dict
 
@@ -64,6 +68,8 @@ class RouteManager:
         for rule in rule_list:
             priority.append(rule['FRA_PRIORITY'])
         attrs = {attr[0]:attr[1] for attr in route['attrs']}
+        if route['dst_len']:
+            attrs['dst_len'] = route['dst_len']
         return (priority, attrs)
 
     def fetch_rules(self):
