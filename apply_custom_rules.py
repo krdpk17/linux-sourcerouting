@@ -44,7 +44,7 @@ class RouteManager:
             print("Couldn't find ip rule priority for {} table id and {} route".format(table_id, route[attrs]))
             return None
         priority = self.ip_rules_by_id[table_id][0]['FRA_PRIORITY']
-        attrs = {attr[0]:attr[1] for attr in attrs}
+        attrs = {attr[0]:attr[1] for attr in route['attrs']}
         return (priority, attrs)
 
     def fetch_rules(self):
