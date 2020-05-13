@@ -29,6 +29,7 @@ class RouteManager:
         '''
         attrs_mapping = {'RTA_GATEWAY':'-nextHop', 'RTA_DST':'-destIP', 'FRA_DST':'-destIP', 'FRA_SRC':'-srcIP'}
         command_prefix = 'add ns pbr '
+        command_suffix = 'ALLOW'
         command_name_format = 'pbr_{orig_prio}_{new_prio}'
 
 
@@ -127,7 +128,7 @@ class RouteManager:
             options_str = options_str + ' ' + option_str
         
         name = name_format.format(orig_prio=orig_priority, new_prio=new_priority)
-        command = command + ' ' + name + ' ' + options_str
+        command = command + ' ' + name + ' ' + options_str + RouteManager.CommandMaping.command_suffix
         self.commands.append(command)
 
 
