@@ -27,7 +27,7 @@ class RouteManager:
         port mapping is not support by IP and so skipped. 
         'ip rule add sport 8080 dport 9090 table 102' -> 'from all lookup 102'
         '''
-        attrs_mapping = {'RTA_GATEWAY':'nextHop', 'RTA_DST':'-destIP', 'FRA_DST':'-destIP', 'FRA_SRC':'srcIP'}
+        attrs_mapping = {'RTA_GATEWAY':'-nextHop', 'RTA_DST':'-destIP', 'FRA_DST':'-destIP', 'FRA_SRC':'-srcIP'}
         command_prefix = 'add ns pbr '
         command_name_format = 'pbr_{orig_prio}_{new_prior}'
 
@@ -41,6 +41,7 @@ class RouteManager:
         self.routes_by_priority = {}
         self.base_priority = 100
         self.ip_rules_by_priority = {}
+        self.commands = []
     
     def parse_rule(self, rule):
         rule_attrs = rule['attrs']
@@ -103,8 +104,7 @@ class RouteManager:
         self.merge_routes_by_priority()
         return
     
-    def map_route_to_command(self, route, orig_priority, curr_priority):
-        pdb.set_trace()
+    def map_route_to_command(self, route, orig_priority, new_priority):
         command = RouteManager.CommandMaping.command_prefix
         options = {}
         attrs_mapping = RouteManager.CommandMaping.attrs_mapping
@@ -113,13 +113,21 @@ class RouteManager:
                 options[attrs_mapping[key]] = value
         rule_mapping = self.ip_rules_by_priority[orig_priority]
         for key, value in rule_mapping:
-            if key in attrs_mapping:
+            if key in attrs_mapping.items():
                 options[attrs_mapping[key]] = value
+        options['-priority'] = new_priority
+        options_str = ' '
+        for key, value in options.items():
+            option = key + ' ' + value
+            options = options + option
         
+        command = command + options
+        self.commands.append(command)
 
 
 
     def routes_to_command(self):
+        pdb.set_trace()
         routes_by_priority = self.routes_by_priority
         curr_priority = self.base_priority
         for priority, route_list  in routes_by_priority.items():
