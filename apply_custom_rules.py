@@ -100,7 +100,7 @@ class RouteManager:
         self.merge_routes_by_priority()
         return
     
-    def map_route_to_command(route, orig_priority, curr_priority):
+    def map_route_to_command(self, route, orig_priority, curr_priority):
         pdb.set_trace()
         command = RouteManager.CommandMaping.command_prefix
 
