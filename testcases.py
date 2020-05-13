@@ -11,7 +11,27 @@ class Tests:
         with open(file_name, 'w') as the_file:
             for command in commands:
                 the_file.write(command + '\n')
-      
+    
+    def test_sorting(self):
+        '''
+            This testcase allows verifies that order of routes are following most specific to least specific
+        '''
+        iproute = pyroute2.IPRoute()
+        #Add rule
+        iproute.rule('add', self.table_id_single_rule, 32000, src='1.1.1.1')
+        #Add routes
+        iproute.route("add", dst="10.0.0.0", mask=24, gateway=self.gateway, table=self.table_id_single_rule)
+        iproute.route("add", dst="10.100.0.0", mask=24, gateway=self.gateway, table=self.table_id_single_rule)
+        iproute.route("add", dst="0.0.0.0", mask=24, gateway=self.gateway, table=self.table_id_single_rule)
+        iproute.route("add", dst="10.100.10.0", mask=24, gateway=self.gateway, table=self.table_id_single_rule)
+        expected_output = [
+            'add ns pbr  pbr_32000_101  -destIP 10.100.10.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 101 ALLOW',
+            'add ns pbr  pbr_32000_102  -destIP 10.100.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 102 ALLOW',
+            'add ns pbr  pbr_32000_103  -destIP 10.0.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 103 ALLOW',
+            'add ns pbr  pbr_32000_103  -destIP 0.0.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 103 ALLOW',
+        ]
+        self.write_to_file('create_single_rule_multiple_route.txt', expected_output)       
+    
     def create_single_rule_multiple_route(self):
         iproute = pyroute2.IPRoute()
         #Add rule
@@ -71,6 +91,7 @@ class Tests:
         self.delete_rules()
 
     def execute(self):
+        self.test_sorting()
         self.create_single_rule_multiple_route()
         self.create_multiple_rule_single_route()
         self.create_multi_rule_multiple_route()

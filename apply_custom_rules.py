@@ -1,6 +1,8 @@
 import pdb
 import pyroute2
 from collections import OrderedDict 
+from socket import inet_aton
+import struct
 
 '''
     TODO: 
@@ -18,6 +20,7 @@ from collections import OrderedDict
     check with rule for all traffic [from all lookup 101]
     Check for precedence between rule and routes (rule has higher precedence)
         conficting config between rule and routes (rule has distination and route also has)
+    Check for IP with subnet mask
 
 '''
 class RouteManager:
@@ -135,12 +138,17 @@ class RouteManager:
         command = command + ' ' + name + ' ' + options_str + ' ' + RouteManager.CommandMaping.command_suffix
         self.commands.append(command)
 
-
+    def sort_routes(self, route_list):
+        pdb.set_trace()
+        list_of_ips = ['192.168.204.111', '192.168.99.11', '192.168.102.105']
+        sorted(list_of_ips, key=lambda ip: struct.unpack("!L", inet_aton(ip))[0])
+        sorted(route_list, key=lambda route: struct.unpack("!L", inet_aton(route['RTA_DST']))[0])
 
     def routes_to_command(self):
         routes_by_priority = self.routes_by_priority
         curr_priority = self.base_priority
         for priority, route_list  in routes_by_priority.items():
+            ordered_routes = self.order_routes(route_list)
             for route in route_list:
                 curr_priority = curr_priority + 1
                 self.map_route_to_command(route, priority, curr_priority) 
