@@ -121,7 +121,7 @@ class RouteManager:
             option = key + ' ' + value
             options = options + option
         
-        command = command + options
+        command = command + options_str
         self.commands.append(command)
 
 
