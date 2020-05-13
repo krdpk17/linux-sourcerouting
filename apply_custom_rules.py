@@ -112,7 +112,7 @@ class RouteManager:
             if key in attrs_mapping:
                 options[attrs_mapping[key]] = value
         rule_mapping = self.ip_rules_by_priority[orig_priority]
-        for key, value in rule_mapping:
+        for key, value in rule_mapping.items():
             if key in attrs_mapping.items():
                 options[attrs_mapping[key]] = value
         options['-priority'] = new_priority
