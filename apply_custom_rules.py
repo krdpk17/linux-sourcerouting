@@ -29,7 +29,7 @@ class RouteManager:
         '''
         attrs_mapping = {'RTA_GATEWAY':'-nextHop', 'RTA_DST':'-destIP', 'FRA_DST':'-destIP', 'FRA_SRC':'-srcIP'}
         command_prefix = 'add ns pbr '
-        command_name_format = 'pbr_{orig_prio}_{new_prior}'
+        command_name_format = 'pbr_{orig_prio}_{new_prio}'
 
 
     def __init__(self, exclusion_filter=[0, 253, 254, 255]):
@@ -129,13 +129,13 @@ class RouteManager:
 
 
     def routes_to_command(self):
-        pdb.set_trace()
         routes_by_priority = self.routes_by_priority
         curr_priority = self.base_priority
         for priority, route_list  in routes_by_priority.items():
             for route in route_list:
                 curr_priority = curr_priority + 1
                 self.map_route_to_command(route, priority, curr_priority)   
+        pdb.set_trace()
 
     def process_custom_rules(self):
         self.fetch_rules()
