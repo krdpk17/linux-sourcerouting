@@ -156,4 +156,4 @@ class RouteManager:
         self.routes_to_command()
 routeManager = RouteManager()
 routeManager.process_custom_rules()
-routeManager.save_route_to_file()
+routeManager.save_command_to_file()
