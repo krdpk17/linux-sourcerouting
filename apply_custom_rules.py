@@ -6,6 +6,7 @@ from collections import OrderedDict
     TODO: 
     
     Routes in a table is envaluated from most specific to least specific. So, chronological order doesn't matter. There is no need to maintain order of entry
+        However, Need to evaluate route order and assign command pririty accordingly
     Priority odering must be maintained
     Testcase:
     Check with IPV6 configuration
@@ -132,7 +133,7 @@ class RouteManager:
             options_str = options_str + ' ' + option_str
         
         name = name_format.format(orig_prio=orig_priority, new_prio=new_priority)
-        command = command + ' ' + name + ' ' + options_str + RouteManager.CommandMaping.command_suffix
+        command = command + ' ' + name + ' ' + options_str + ' ' + RouteManager.CommandMaping.command_suffix
         self.commands.append(command)
 
 
