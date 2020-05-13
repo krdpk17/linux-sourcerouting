@@ -59,10 +59,6 @@ class Tests:
             'add ns pbr  pbr_32001_104  -destIP 10.0.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 104 ALLOW',
             'add ns pbr  pbr_32001_105  -destIP 11.0.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 105 ALLOW',
             'add ns pbr  pbr_32001_106  -destIP 0.0.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 106 ALLOW',
-            'add ns pbr  pbr_32002_107  -destIP 10.0.0.0 -nextHop 172.17.0.3 -srcIP 2.1.1.1 -priority 107 ALLOW',
-            'add ns pbr  pbr_32002_108  -destIP 11.0.0.0 -nextHop 172.17.0.3 -srcIP 2.1.1.1 -priority 108 ALLOW',
-            'add ns pbr  pbr_32002_109  -destIP 0.0.0.0 -nextHop 172.17.0.3 -srcIP 2.1.1.1 -priority 109 ALLOW',
-
         ]
         self.write_to_file('create_multi_rule_multiple_route.txt', expected_output)
 
