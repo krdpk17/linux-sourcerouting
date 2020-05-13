@@ -28,7 +28,7 @@ class Tests:
             'add ns pbr  pbr_32000_101  -destIP 10.100.10.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 101 ALLOW',
             'add ns pbr  pbr_32000_102  -destIP 10.100.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 102 ALLOW',
             'add ns pbr  pbr_32000_103  -destIP 10.0.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 103 ALLOW',
-            'add ns pbr  pbr_32000_103  -destIP 0.0.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 103 ALLOW',
+            'add ns pbr  pbr_32000_104  -destIP 0.0.0.0 -nextHop 172.17.0.3 -srcIP 1.1.1.1 -priority 103 ALLOW',
         ]
         self.write_to_file('test_sorting.txt', expected_output)       
     
