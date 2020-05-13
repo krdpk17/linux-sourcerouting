@@ -148,7 +148,7 @@ class RouteManager:
         routes_by_priority = self.routes_by_priority
         curr_priority = self.base_priority
         for priority, route_list  in routes_by_priority.items():
-            ordered_routes = self.order_routes(route_list)
+            ordered_routes = self.sort_routes(route_list)
             for route in route_list:
                 curr_priority = curr_priority + 1
                 self.map_route_to_command(route, priority, curr_priority) 
