@@ -4,9 +4,12 @@ from collections import OrderedDict
 
 '''
     TODO: 
-    Handle multiple rules with same table ID
-    Check whether ordering of route entries for a table matters. Try to maintain same
+    
+    Routes in a table is envaluated from most specific to least specific. So, chronological order doesn't matter. There is no need to maintain order of entry
+    Priority odering must be maintained
+    Testcase:
     Check with IPV6 configuration
+    Handle multiple rules with same table ID
     Check with empty rules
     Check with empty routes
     Check with routes without IP rule
@@ -18,13 +21,16 @@ from collections import OrderedDict
 '''
 class RouteManager:
 
-    class OptionsMaping:
+    class CommandMaping:
         '''
         Maps the attribute names from the IP route
         port mapping is not support by IP and so skipped. 
         'ip rule add sport 8080 dport 9090 table 102' -> 'from all lookup 102'
         '''
         attrs_mapping = {'RTA_GATEWAY':'nextHop', 'RTA_DST':'-destIP', 'FRA_DST':'-destIP', 'FRA_SRC':'srcIP'}
+        command_prefix = 'add ns pbr '
+        command_name_format = 'pbr_{orig_prio}_{new_prior}'
+
 
     def __init__(self, exclusion_filter=[0, 253, 254, 255]):
         self.exclusion_filter = exclusion_filter
@@ -83,6 +89,10 @@ class RouteManager:
     def fetch_routes(self):
         iproute = pyroute2.IPRoute()
         routes = iproute.get_routes()
+        '''
+        Since routes are of list type and so, list comprehension maintains the same order in the result.
+        Refer: https://stackoverflow.com/questions/1286167/is-the-order-of-results-coming-from-a-list-comprehension-guaranteed
+        '''
         self.ip_routes = [(lambda route: self.parse_route(route))(route)  for route in routes if route['table'] not in self.exclusion_filter]
         print("Removing routes which has no corresponding rules")
         self.ip_routes = [route for route in self.ip_routes if route is not None]
@@ -90,11 +100,18 @@ class RouteManager:
         self.merge_routes_by_priority()
         return
     
+    def map_route_to_command(route, orig_priority, curr_priority):
+        pdb.set_trace()
+        command = RouteManager.CommandMaping.command_prefix
+
+
+
     def routes_to_command(self):
         routes_by_priority = self.routes_by_priority
         curr_priority = self.base_priority
         for priority, route_list  in routes_by_priority.items():
-             pdb.set_trace()
+            for route in route_list:
+                self.map_route_to_command(route, priority, curr_priority)   
 
     def process_custom_rules(self):
         self.fetch_rules()
