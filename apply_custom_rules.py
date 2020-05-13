@@ -36,13 +36,16 @@ class RouteManager:
         self.exclusion_filter = exclusion_filter
         self.ip_rules = []
         self.ip_rules_by_id = {}
+        self.ip_rules_by_priority = {}
         self.ip_routes = []
         self.routes_by_priority = {}
         self.base_priority = 100
+        self.ip_rules_by_priority = {}
     
     def parse_rule(self, rule):
         rule_attrs = rule['attrs']
         attr_dict = {attr[0]:attr[1] for attr in rule_attrs}
+        self.ip_rules_by_priority.append({attr_dict['FRA_PRIORITY']:attr_dict})
         return attr_dict
 
     def parse_route(self, route):
@@ -103,6 +106,16 @@ class RouteManager:
     def map_route_to_command(self, route, orig_priority, curr_priority):
         pdb.set_trace()
         command = RouteManager.CommandMaping.command_prefix
+        options = {}
+        attrs_mapping = RouteManager.CommandMaping.attrs_mapping
+        for key value in route.items():
+            if key in attrs_mapping:
+                options[attrs_mapping[key]] = value
+        rule_mapping = self.ip_rules_by_priority[orig_priority]
+        for key, value in rule_mapping:
+            if key in attrs_mapping:
+                options[attrs_mapping[key]] = value
+        
 
 
 
@@ -111,6 +124,7 @@ class RouteManager:
         curr_priority = self.base_priority
         for priority, route_list  in routes_by_priority.items():
             for route in route_list:
+                curr_priority = curr_priority + 1
                 self.map_route_to_command(route, priority, curr_priority)   
 
     def process_custom_rules(self):
