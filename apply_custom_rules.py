@@ -118,8 +118,8 @@ class RouteManager:
         options['-priority'] = new_priority
         options_str = ' '
         for key, value in options.items():
-            option = key + ' ' + value
-            options = options + option
+            option_str = key + ' ' + value
+            options_str = options_str + option_str
         
         command = command + options_str
         self.commands.append(command)
