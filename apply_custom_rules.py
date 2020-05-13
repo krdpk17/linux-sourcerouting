@@ -83,7 +83,7 @@ class RouteManager:
         routes = iproute.get_routes()
         self.ip_routes = [(lambda route: self.parse_route(route))(route)  for route in routes if route['table'] not in self.exclusion_filter]
         print("Removing routes which has no corresponding rules")
-        self.ip_routes = [route for route in routes if route is not None]
+        self.ip_routes = [route for route in self.ip_routes if route is not None]
         print("Found {} routes".format(len(self.ip_routes)))
         self.merge_routes_by_priority()
         return
