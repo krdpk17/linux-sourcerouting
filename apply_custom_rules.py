@@ -75,7 +75,7 @@ class RouteManager:
             if priority not in self.routes_by_priority:
                 routes_by_priority[priority] = []
             routes_by_priority[priority].append(route[1])
-        routes_by_priority = collections.OrderedDict(sorted(routes_by_priority.items()))
+        routes_by_priority = OrderedDict(sorted(routes_by_priority.items()))
         print("Number of entries after priority based merge is {}".format(len(routes_by_priority)))
         return
 
