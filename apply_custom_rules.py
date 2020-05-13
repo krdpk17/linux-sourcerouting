@@ -108,6 +108,7 @@ class RouteManager:
         command = RouteManager.CommandMaping.command_prefix
         options = {}
         attrs_mapping = RouteManager.CommandMaping.attrs_mapping
+        name_format = RouteManager.CommandMaping.command_name_format
         for key, value in route.items():
             if key in attrs_mapping:
                 options[attrs_mapping[key]] = value
@@ -116,12 +117,13 @@ class RouteManager:
             if key in attrs_mapping.items():
                 options[attrs_mapping[key]] = value
         options['-priority'] = new_priority
-        options_str = ' '
+        options_str = ''
         for key, value in options.items():
             option_str = key + ' ' + str(value)
             options_str = options_str + option_str
         
-        command = command + options_str
+        name = name_format.format(orig_prio=orig_priority, new_prio=new_priority)
+        command = command + ' ' + name + ' ' + options_str
         self.commands.append(command)
 
 
