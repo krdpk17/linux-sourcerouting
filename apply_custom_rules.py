@@ -143,12 +143,17 @@ class RouteManager:
         for priority, route_list  in routes_by_priority.items():
             for route in route_list:
                 curr_priority = curr_priority + 1
-                self.map_route_to_command(route, priority, curr_priority)   
-        pdb.set_trace()
+                self.map_route_to_command(route, priority, curr_priority) 
 
+    def save_command_to_file(self):
+        with open('out_command.txt', 'w') as the_file:
+            for command in self.commands:
+                the_file.write(command + '\n')
+        
     def process_custom_rules(self):
         self.fetch_rules()
         self.fetch_routes()
         self.routes_to_command()
 routeManager = RouteManager()
 routeManager.process_custom_rules()
+routeManager.save_route_to_file()
