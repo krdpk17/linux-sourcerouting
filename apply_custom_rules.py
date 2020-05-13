@@ -120,7 +120,7 @@ class RouteManager:
         options_str = ''
         for key, value in options.items():
             option_str = key + ' ' + str(value)
-            options_str = options_str + option_str
+            options_str = options_str + ' ' + option_str
         
         name = name_format.format(orig_prio=orig_priority, new_prio=new_priority)
         command = command + ' ' + name + ' ' + options_str
