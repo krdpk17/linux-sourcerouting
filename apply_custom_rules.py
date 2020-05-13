@@ -108,7 +108,7 @@ class RouteManager:
         command = RouteManager.CommandMaping.command_prefix
         options = {}
         attrs_mapping = RouteManager.CommandMaping.attrs_mapping
-        for key value in route.items():
+        for key, value in route.items():
             if key in attrs_mapping:
                 options[attrs_mapping[key]] = value
         rule_mapping = self.ip_rules_by_priority[orig_priority]
